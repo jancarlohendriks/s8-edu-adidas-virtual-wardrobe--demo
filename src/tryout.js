@@ -119,6 +119,19 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+// Debounce function to limit the rate of function execution
+function debounce(func, delay) {
+  let timeout;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
+}
+
 // Function to initialize the Vologram
 function initVologram() {
   const updateLoading = (p, play) => {
@@ -131,26 +144,28 @@ function initVologram() {
   scene.add(vologram);
 
   // Play/Pause button and Sound/Mute button
-  document.getElementById("playpause").onclick = (e) =>
+  // Your click handlers
+  document.getElementById("playpause").onclick = debounce((e) => {
     vologram.elVideo.paused
       ? vologram.elVideo.play()
       : vologram.elVideo.pause();
+  }, 300); // Adjust the debounce delay as needed
 
-  document.getElementById("left").onclick = (e) => {
+  document.getElementById("left").onclick = debounce((e) => {
     vologram.clear();
     vologram = new Vologram("assets/left_1690983019490_ld", updateLoading);
     scene.add(vologram);
-  };
+  }, 300); // Adjust the debounce delay as needed
 
-  document.getElementById("head").onclick = (e) => {
+  document.getElementById("head").onclick = debounce((e) => {
     vologram.clear();
     vologram = new Vologram("assets/head_1690983148857_ld", updateLoading);
     scene.add(vologram);
-  };
+  }, 300); // Adjust the debounce delay as needed
 
-  document.getElementById("right").onclick = (e) => {
+  document.getElementById("right").onclick = debounce((e) => {
     vologram.clear();
     vologram = new Vologram("assets/right_1690983080648_ld", updateLoading);
     scene.add(vologram);
-  };
+  }, 300); // Adjust the debounce delay as needed
 }
