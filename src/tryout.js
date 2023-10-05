@@ -88,6 +88,7 @@ function loaded(xhr) {
 
 // Function to load the GLTF model
 function loadModel() {
+  window.createImageBitmap = undefined;
   const loader = new GLTFLoader();
   loader.load(
     stadium,
